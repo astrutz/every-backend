@@ -5,6 +5,7 @@ import { ContestsService } from '../src/contests/contests.service';
 import { EntriesService } from '../src/entries/entries.service';
 
 // Import your data
+// @ts-ignore
 import { countries } from './data/countries.data';
 import {
   contest2017,
@@ -15,7 +16,9 @@ import {
   contest2023,
   contest2024,
   contest2025,
+  // @ts-ignore
 } from './data/contests.data';
+// @ts-ignore
 import { entries } from './data/entries.data';
 
 async function migrate() {
