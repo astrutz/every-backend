@@ -8,27 +8,51 @@ import { CreateEntryDto, UpdateEntryDto } from './dto/create-entry.dto';
 export class EntriesService {
   constructor(@InjectModel(Entry.name) private entryModel: Model<Entry>) {}
 
-  async findAll(): Promise<Entry[]> {
-    return this.entryModel
-      .find()
-      .populate('country')
-      .populate('contest')
-      .exec();
-  }
+  async findAll(year?: number, countryCode?: string): Promise<Entry[]> {
+    const filter: any = {};
 
-  async findByYear(year: number): Promise<Entry[]> {
-    return this.entryModel
-      .find({ year })
+    if (year) {
+      filter.year = year;
+    }
+
+    // Build query
+    let query = this.entryModel
+      .find(filter)
       .populate('country')
-      .populate('contest')
-      .exec();
+      .populate({
+        path: 'contest',
+        select: 'year colours', // Only select year and colours
+        populate: {
+          path: 'hostCountry',
+          select: 'code name', // Only code and name
+        },
+      });
+
+    // Execute query
+    let entries = await query.exec();
+
+    // Filter by country code if provided (after population)
+    if (countryCode) {
+      entries = entries.filter(
+        (entry: any) => entry.country?.code === countryCode.toUpperCase(),
+      );
+    }
+
+    return entries;
   }
 
   async findOne(id: string): Promise<Entry> {
     const entry = await this.entryModel
       .findById(id)
       .populate('country')
-      .populate('contest')
+      .populate({
+        path: 'contest',
+        select: 'year colours',
+        populate: {
+          path: 'hostCountry',
+          select: 'code name', // Only code and name
+        },
+      })
       .exec();
 
     if (!entry) {
@@ -46,7 +70,14 @@ export class EntriesService {
     const entry = await this.entryModel
       .findByIdAndUpdate(id, updateEntryDto, { new: true })
       .populate('country')
-      .populate('contest')
+      .populate({
+        path: 'contest',
+        select: 'year colours',
+        populate: {
+          path: 'hostCountry',
+          select: 'code name', // Only code and name
+        },
+      })
       .exec();
 
     if (!entry) {

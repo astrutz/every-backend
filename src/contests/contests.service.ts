@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Contest } from './schemas/contest.schema';
+import { CreateContestDto, UpdateContestDto } from './dto/create-contest.dto';
 
 @Injectable()
 export class ContestsService {
@@ -12,22 +13,50 @@ export class ContestsService {
   async findAll(): Promise<Contest[]> {
     return this.contestModel
       .find()
-      .populate('hostCountry')
+      .select('year colours')
+      .populate('hostCountry', 'code name') // Only code and name
       .populate({
         path: 'entries',
-        populate: { path: 'country' },
+        populate: {
+          path: 'country',
+          select: 'code name primaryColor secondaryColor',
+        },
       })
       .sort({ year: -1 })
       .exec();
   }
 
+  async findOne(id: string): Promise<Contest> {
+    const contest = await this.contestModel
+      .findById(id)
+      .select('year colours')
+      .populate('hostCountry', 'code name') // Only code and name
+      .populate({
+        path: 'entries',
+        populate: {
+          path: 'country',
+          select: 'code name primaryColor secondaryColor',
+        },
+      })
+      .exec();
+
+    if (!contest) {
+      throw new NotFoundException(`Contest with ID ${id} not found`);
+    }
+    return contest;
+  }
+
   async findByYear(year: number): Promise<Contest> {
     const contest = await this.contestModel
       .findOne({ year })
-      .populate('hostCountry')
+      .select('year colours')
+      .populate('hostCountry', 'code name') // Only code and name
       .populate({
         path: 'entries',
-        populate: { path: 'country' },
+        populate: {
+          path: 'country',
+          select: 'code name primaryColor secondaryColor',
+        },
       })
       .exec();
 
@@ -37,16 +66,26 @@ export class ContestsService {
     return contest;
   }
 
-  async create(createContestDto: any): Promise<Contest> {
+  async create(createContestDto: CreateContestDto): Promise<Contest> {
     const contest = new this.contestModel(createContestDto);
     return contest.save();
   }
 
-  async update(id: string, updateContestDto: any): Promise<Contest> {
+  async update(
+    id: string,
+    updateContestDto: UpdateContestDto,
+  ): Promise<Contest> {
     const contest = await this.contestModel
       .findByIdAndUpdate(id, updateContestDto, { new: true })
-      .populate('hostCountry')
-      .populate('entries')
+      .select('year colours')
+      .populate('hostCountry', 'code name') // Only code and name
+      .populate({
+        path: 'entries',
+        populate: {
+          path: 'country',
+          select: 'code name primaryColor secondaryColor',
+        },
+      })
       .exec();
 
     if (!contest) {
@@ -66,6 +105,13 @@ export class ContestsService {
       await contest.save();
     }
 
-    return contest;
+    return this.findByYear(year);
+  }
+
+  async delete(id: string): Promise<void> {
+    const result = await this.contestModel.findByIdAndDelete(id).exec();
+    if (!result) {
+      throw new NotFoundException(`Contest with ID ${id} not found`);
+    }
   }
 }

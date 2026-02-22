@@ -16,11 +16,14 @@ export class EntriesController {
   constructor(private readonly entriesService: EntriesService) {}
 
   @Get()
-  async findAll(@Query('year') year?: string) {
-    if (year) {
-      return this.entriesService.findByYear(parseInt(year));
-    }
-    return this.entriesService.findAll();
+  async findAll(
+    @Query('year') year?: string,
+    @Query('country') countryCode?: string,
+  ) {
+    return this.entriesService.findAll(
+      year ? parseInt(year) : undefined,
+      countryCode,
+    );
   }
 
   @Get(':id')
