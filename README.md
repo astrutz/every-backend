@@ -1,98 +1,503 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Every Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS backend for managing the every data with MongoDB. Used by [every](https://github.com/astrutz/every).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the App](#running-the-app)
+- [API Documentation](#api-documentation)
+    - [Countries](#countries)
+    - [Contests](#contests)
+    - [Entries](#entries)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Tech Stack
 
-```bash
-$ npm install
-```
+- **[NestJS](https://nestjs.com/)**
+- **[MongoDB](https://www.mongodb.com/)** 
+- **[Mongoose](https://mongoosejs.com/)** 
+- **[TypeScript](https://www.typescriptlang.org/)** 
+- - **[class-validator](https://github.com/typestack/class-validator)**
+- **[class-transformer](https://github.com/typestack/class-transformer)**
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Prerequisites
 
-# watch mode
-$ npm run start:dev
+- **Node.js** v18+ and npm
+- **MongoDB Atlas** account (or local MongoDB instance)
+- **Git**
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+## Installation
 
 ```bash
-# unit tests
-$ npm run test
+# Clone the repository
+git clone https://github.com/astrutz/every-backend.git
+cd every-backend
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Install dependencies
+npm install
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Environment Variables
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+see `example.env`
+
+---
+
+## Running the App
+
+### Development Mode
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Start with hot-reload
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+The API will be available at `http://localhost:3000`
 
-## Resources
+### Production Mode
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# Build the application
+npm run build
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Start production server
+npm run start:prod
+```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 📚 API Documentation
 
-## Stay in touch
+Base URL: `http://localhost:3000` (Development) or your deployed URL
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Countries
+
+#### Get All Countries
+
+```http
+GET /countries
+```
+
+**Response:**
+```json
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "code": "DE",
+    "name": "Germany",
+    "primaryColor": "#000000",
+    "secondaryColor": "#FFCE00"
+  }
+]
+```
+
+#### Get Country by ID
+
+```http
+GET /countries/:id
+```
+
+**Response:**
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "code": "DE",
+  "name": "Germany",
+  "primaryColor": "#000000",
+  "secondaryColor": "#FFCE00"
+}
+```
+
+#### Create Country
+
+```http
+POST /countries
+Content-Type: application/json
+
+{
+  "code": "DE",
+  "name": "Germany",
+  "primaryColor": "#000000",
+  "secondaryColor": "#FFCE00"
+}
+```
+
+#### Update Country
+
+```http
+PUT /countries/:id
+Content-Type: application/json
+
+{
+  "name": "Germany",
+  "primaryColor": "#000000",
+  "secondaryColor": "#FFCE00"
+}
+```
+
+#### Delete Country
+
+```http
+DELETE /countries/:id
+```
+
+---
+
+### Contests
+
+#### Get All Contests
+
+```http
+GET /contests
+```
+
+**Response:**
+```json
+[
+  {
+    "_id": "507f1f77bcf86cd799439013",
+    "year": 2024,
+    "colours": ["#f6d915", "#ff46e0", "#000000", "#000000"],
+    "hostCountry": {
+      "_id": "507f1f77bcf86cd799439014",
+      "code": "SE",
+      "name": "Sweden"
+    },
+    "entries": [...]
+  }
+]
+```
+
+#### Get Contest by Year
+
+```http
+GET /contests?year=2024
+```
+
+#### Get Contest by ID
+
+```http
+GET /contests/:id
+```
+
+#### Get Top Entries for Contest
+
+Get the top-ranked entries for a specific year, sorted by weighted rating.
+
+```http
+GET /contests/:year/top?limit=10
+```
+
+**Parameters:**
+- `year` (required): Contest year (e.g., 2024)
+- `limit` (optional): Number of top entries to return (default: 10)
+
+**Rating Calculation:**
+- Energy: 30%
+- Staging: 30%
+- Studio: 15%
+- Fun: 15%
+- Vocals: 10%
+
+**Example:**
+```http
+GET /contests/2024/top?limit=5
+```
+
+**Response:**
+```json
+{
+  "year": 2024,
+  "colours": ["#f6d915", "#ff46e0", "#000000", "#000000"],
+  "hostCountry": {
+    "_id": "507f1f77bcf86cd799439014",
+    "code": "SE",
+    "name": "Sweden"
+  },
+  "topEntries": [
+    {
+      "_id": "507f1f77bcf86cd799439015",
+      "year": 2024,
+      "place": 2,
+      "artist": "Baby Lasagna",
+      "title": "Rim Tim Dagi Dim",
+      "link": "https://www.youtube.com/watch?v=YIBjarAiAVc",
+      "energyRating": 10,
+      "stagingRating": 9,
+      "studioRating": 9,
+      "funRating": 10,
+      "vocalsRating": 6,
+      "totalRating": 9.45,
+      "country": {
+        "_id": "507f1f77bcf86cd799439016",
+        "code": "HR",
+        "name": "Croatia",
+        "primaryColor": "#FF0000",
+        "secondaryColor": "#0093DD"
+      }
+    }
+  ]
+}
+```
+
+#### Create Contest
+
+```http
+POST /contests
+Content-Type: application/json
+
+{
+  "year": 2024,
+  "hostCountry": "507f1f77bcf86cd799439014",
+  "colours": ["#f6d915", "#ff46e0", "#000000", "#000000"],
+  "entries": []
+}
+```
+
+#### Update Contest
+
+```http
+PUT /contests/:id
+Content-Type: application/json
+
+{
+  "colours": ["#f6d915", "#ff46e0", "#000000", "#000000"]
+}
+```
+
+#### Delete Contest
+
+```http
+DELETE /contests/:id
+```
+
+---
+
+### Entries
+
+#### Get All Entries
+
+```http
+GET /entries
+```
+
+**Query Parameters:**
+- `year` (optional): Filter by contest year
+- `country` (optional): Filter by country code
+
+**Examples:**
+```http
+# All entries
+GET /entries
+
+# All entries from 2024
+GET /entries?year=2024
+
+# All entries from Germany
+GET /entries?country=DE
+
+# All entries from Germany in 2024
+GET /entries?year=2024&country=DE
+```
+
+**Response:**
+```json
+[
+  {
+    "_id": "507f1f77bcf86cd799439017",
+    "year": 2024,
+    "place": 1,
+    "artist": "Nemo",
+    "title": "The Code",
+    "link": "",
+    "energyRating": 7,
+    "stagingRating": 8,
+    "studioRating": 8,
+    "funRating": 7,
+    "vocalsRating": 9,
+    "country": {
+      "_id": "507f1f77bcf86cd799439018",
+      "code": "CH",
+      "name": "Switzerland",
+      "primaryColor": "#FF0000",
+      "secondaryColor": "#FFFFFF"
+    },
+    "contest": {
+      "_id": "507f1f77bcf86cd799439019",
+      "year": 2024,
+      "colours": ["#f6d915", "#ff46e0", "#000000", "#000000"],
+      "hostCountry": {
+        "_id": "507f1f77bcf86cd799439020",
+        "code": "SE",
+        "name": "Sweden"
+      }
+    }
+  }
+]
+```
+
+#### Get Entry by ID
+
+```http
+GET /entries/:id
+```
+
+#### Create Entry
+
+```http
+POST /entries
+Content-Type: application/json
+
+{
+  "country": "507f1f77bcf86cd799439018",
+  "contest": "507f1f77bcf86cd799439019",
+  "year": 2024,
+  "place": 1,
+  "artist": "Nemo",
+  "title": "The Code",
+  "link": "",
+  "energyRating": 7,
+  "stagingRating": 8,
+  "studioRating": 8,
+  "funRating": 7,
+  "vocalsRating": 9
+}
+```
+
+**Validation Rules:**
+- `country`: Must be a valid MongoDB ObjectId
+- `contest`: Must be a valid MongoDB ObjectId
+- `year`: Number
+- `place`: Number
+- `artist`: String (required)
+- `title`: String (required)
+- `link`: String (optional)
+- `energyRating`: Number (0-10)
+- `stagingRating`: Number (0-10)
+- `studioRating`: Number (0-10)
+- `funRating`: Number (0-10)
+- `vocalsRating`: Number (0-10)
+
+#### Update Entry
+
+```http
+PUT /entries/:id
+Content-Type: application/json
+
+{
+  "place": 2,
+  "energyRating": 8
+}
+```
+
+#### Delete Entry
+
+```http
+DELETE /entries/:id
+```
+
+---
+
+## Database Schema
+
+### Country
+```typescript
+{
+  code: string;           // ISO 3166-1 alpha-2 (e.g., "DE")
+  name: string;           // Full country name
+  primaryColor?: string;  // Hex color code
+  secondaryColor?: string; // Hex color code
+}
+```
+
+### Contest
+```typescript
+{
+  year: number;           // Contest year (e.g., 2024)
+  hostCountry: ObjectId;  // Reference to Country
+  colours: string[];      // Array of hex color codes
+  entries: ObjectId[];    // Array of Entry references
+}
+```
+
+### Entry
+```typescript
+{
+  country: ObjectId;      // Reference to Country
+  contest: ObjectId;      // Reference to Contest
+  year: number;           // Contest year
+  place: number;          // Final placement
+  artist: string;         // Artist name
+  title: string;          // Song title
+  link: string;           // YouTube/external link
+  energyRating: number;   // 0-10
+  stagingRating: number;  // 0-10
+  studioRating: number;   // 0-10
+  funRating: number;      // 0-10
+  vocalsRating: number;   // 0-10
+}
+```
+
+---
+
+## API Response Formats
+
+### Success Response
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "field1": "value1",
+  "field2": "value2"
+}
+```
+
+### Error Response
+```json
+{
+  "statusCode": 404,
+  "message": "Resource not found",
+  "error": "Not Found"
+}
+```
+
+### Validation Error Response
+```json
+{
+  "statusCode": 400,
+  "message": [
+    "code must be a string",
+    "name should not be empty"
+  ],
+  "error": "Bad Request"
+}
+```
+
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.
+
+---
+
+## Author
+
+**Alex Strutz**
+
+- Website: [alexstrutz.dev](https://alexstrutz.dev)
+- GitHub: [@astrutz](https://github.com/astrutz)
+
+---
+
+**Made with ❤️ for Eurovision** 🎵
