@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Contest extends Document {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, type: Number })
   year: number;
 
   @Prop({ type: Types.ObjectId, ref: 'Country', required: true })

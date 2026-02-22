@@ -13,43 +13,43 @@ export class Entry extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Contest', required: true, index: true })
   contest: Types.ObjectId;
 
-  @Prop({ required: true, index: true })
+  @Prop({ required: true, index: true, type: Number })
   year: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   place: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   artist: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   title: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', type: String })
   link: string;
 
-  @Prop({ required: true, min: 0, max: 10 })
+  @Prop({ required: true, min: 0, max: 10, type: Number })
   energyRating: number;
 
-  @Prop({ required: true, min: 0, max: 10 })
+  @Prop({ required: true, min: 0, max: 10, type: Number })
   stagingRating: number;
 
-  @Prop({ required: true, min: 0, max: 10 })
+  @Prop({ required: true, min: 0, max: 10, type: Number })
   studioRating: number;
 
-  @Prop({ required: true, min: 0, max: 10 })
+  @Prop({ required: true, min: 0, max: 10, type: Number })
   funRating: number;
 
-  @Prop({ required: true, min: 0, max: 10 })
+  @Prop({ required: true, min: 0, max: 10, type: Number })
   vocalsRating: number;
 }
 
 export const EntrySchema = SchemaFactory.createForClass(Entry);
 
-// Add compound index for common queries
+// Compound index for common queries
 EntrySchema.index({ year: 1, country: 1 });
 
-// Add virtual for calculated total rating
+// Virtual for calculated total rating
 EntrySchema.virtual('totalRating').get(function () {
   return (
     this.energyRating * 0.3 +
