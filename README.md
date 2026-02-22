@@ -7,6 +7,7 @@ NestJS backend for managing the every data with MongoDB. Used by [every](https:/
 - [Tech Stack](#tech-stack)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Deployment](#deployment)
 - [Running the App](#running-the-app)
 - [API Documentation](#api-documentation)
     - [Countries](#countries)
@@ -76,6 +77,15 @@ npm run start:prod
 ```
 
 ---
+
+## Deployment
+Well, this is funny. Because of Vercels weirdness, a deployment can only be done by the repository owner with:
+
+```bash
+$ npm run build
+$ vercel login
+$ vercel deploy --prod
+```
 
 ## 📚 API Documentation
 
