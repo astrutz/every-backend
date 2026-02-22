@@ -5,7 +5,6 @@ import { CountriesModule } from './countries/countries.module';
 import { ContestsModule } from './contests/contests.module';
 import { EntriesModule } from './entries/entries.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -20,6 +19,5 @@ import { AppService } from './app.service';
     EntriesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

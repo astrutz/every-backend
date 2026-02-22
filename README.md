@@ -79,14 +79,9 @@ npm run start:prod
 ---
 
 ## Deployment
-Well, this is funny. Because of Vercels weirdness, a deployment can only be done by the repository owner with:
+tbd
 
-```bash
-$ npm run build
-$ vercel login
-$ vercel deploy --prod
-```
-
+---
 ## 📚 API Documentation
 
 Base URL: `http://localhost:3000` (Development) or your deployed URL
