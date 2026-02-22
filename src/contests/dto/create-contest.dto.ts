@@ -23,5 +23,3 @@ export class CreateContestDto {
   @IsOptional()
   entries?: string[];
 }
-
-export class UpdateContestDto extends CreateContestDto {}

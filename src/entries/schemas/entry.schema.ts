@@ -1,15 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-@Schema({ timestamps: true })
+@Schema({
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 export class Entry extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Country', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Country', required: true, index: true })
   country: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Contest', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Contest', required: true, index: true })
   contest: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   year: number;
 
   @Prop({ required: true })
@@ -42,6 +46,16 @@ export class Entry extends Document {
 
 export const EntrySchema = SchemaFactory.createForClass(Entry);
 
-// Add indexes for faster queries
-EntrySchema.index({ year: 1 });
-EntrySchema.index({ country: 1, year: 1 });
+// Add compound index for common queries
+EntrySchema.index({ year: 1, country: 1 });
+
+// Add virtual for calculated total rating
+EntrySchema.virtual('totalRating').get(function () {
+  return (
+    this.energyRating * 0.3 +
+    this.stagingRating * 0.3 +
+    this.studioRating * 0.15 +
+    this.funRating * 0.15 +
+    this.vocalsRating * 0.1
+  );
+});
