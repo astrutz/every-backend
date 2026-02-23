@@ -5,6 +5,7 @@ import { CountriesModule } from './countries/countries.module';
 import { ContestsModule } from './contests/contests.module';
 import { EntriesModule } from './entries/entries.module';
 import { AppController } from './app.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AppController } from './app.controller';
     CountriesModule,
     ContestsModule,
     EntriesModule,
+    AuthModule
   ],
   controllers: [AppController],
 })
