@@ -3,10 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Entry } from './schemas/entry.schema';
 import { CreateEntryDto, UpdateEntryDto } from './dto/create-entry.dto';
+import { ContestsService } from '../contests/contests.service';
 
 @Injectable()
 export class EntriesService {
-  constructor(@InjectModel(Entry.name) private entryModel: Model<Entry>) {}
+  constructor(@InjectModel(Entry.name) private entryModel: Model<Entry>, private contestsService: ContestsService) {}
 
   async findAll(year?: number, countryCode?: string): Promise<Entry[]> {
     const filter: any = {};
@@ -63,6 +64,7 @@ export class EntriesService {
 
   async create(createEntryDto: CreateEntryDto): Promise<Entry> {
     const entry = new this.entryModel(createEntryDto);
+    await this.contestsService.addEntryToContest(createEntryDto.year, entry.id);
     return entry.save();
   }
 
