@@ -144,10 +144,10 @@ export class ContestsService {
     return contest;
   }
 
-  async addEntryToContest(year: number, entryId: string): Promise<Contest> {
+  async addEntryToContest(year: number, entryId: string): Promise<Contest | null> {
     const contest = await this.contestModel.findOne({ year });
     if (!contest) {
-      throw new NotFoundException(`Contest for year ${year} not found`);
+      return null;
     }
 
     if (!contest.entries.includes(entryId as any)) {
