@@ -12,7 +12,8 @@ export class CreateEntryDto {
   country: string;
 
   @IsMongoId()
-  contest: string;
+  @IsOptional()
+  contest?: string;
 
   @IsNumber()
   year: number;
