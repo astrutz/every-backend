@@ -10,6 +10,7 @@ import {
   IsDateString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PlantLocation } from '../schemas/plant.schema';
 
 export class DormantPeriodDto {
   @IsOptional()
@@ -81,17 +82,10 @@ export class CreatePlantDto {
 
   @IsOptional()
   @IsDateString()
-  createdAtDate?: string;
+  birthDate?: string;
 
-  @IsEnum([
-    'Balkon',
-    'Schlafzimmer',
-    'Flur',
-    'Arbeitszimmer',
-    'Wohnzimmer',
-    'Babiel',
-  ])
-  location: string;
+  @IsEnum(PlantLocation)
+  location: PlantLocation;
 
   @IsOptional()
   @ValidateNested()
