@@ -44,7 +44,7 @@ export class Plant extends Document {
   lastWipedAt?: Date;
 
   @Prop({ default: () => new Date() })
-  createdAtDate: Date;
+  birthDate: Date;
 
   @Prop({
     required: true,
@@ -81,6 +81,23 @@ export class Plant extends Document {
     wipingInterval?: number;
   };
 
+  @Prop({
+    type: {
+      wateringUntil: Date,
+      sprayingUntil: Date,
+      fertilizingUntil: Date,
+      cuttingUntil: Date,
+      wipingUntil: Date,
+    },
+  })
+  snooze?: {
+    wateringUntil?: Date;
+    sprayingUntil?: Date;
+    fertilizingUntil?: Date;
+    cuttingUntil?: Date;
+    wipingUntil?: Date;
+  };
+
   @Prop()
   imageUrl?: string;
 
@@ -113,29 +130,65 @@ function getInterval(plant: any, key: string) {
   return plant[key];
 }
 
+function applySnooze(
+  plant: any,
+  type: 'watering' | 'spraying' | 'fertilizing' | 'cutting' | 'wiping',
+  calculatedDate: Date | null,
+) {
+  if (!calculatedDate) return null;
+
+  const snoozeUntil = plant.snooze?.[`${type}Until`];
+
+  if (snoozeUntil && snoozeUntil > new Date()) {
+    return snoozeUntil;
+  }
+
+  return calculatedDate;
+}
+
 PlantSchema.virtual('nextWatering').get(function () {
   const interval = getInterval(this, 'wateringInterval');
-  return calculateNext(this.createdAtDate, interval);
+  const baseDate = this.birthDate;
+
+  const calculated = calculateNext(baseDate, interval);
+
+  return applySnooze(this, 'watering', calculated);
 });
 
 PlantSchema.virtual('nextSpraying').get(function () {
   const interval = getInterval(this, 'sprayingInterval');
-  return interval ? calculateNext(this.createdAtDate, interval) : null;
+  const baseDate = this.birthDate;
+
+  const calculated = calculateNext(baseDate, interval);
+
+  return applySnooze(this, 'spraying', calculated);
 });
 
 PlantSchema.virtual('nextFertilizing').get(function () {
   const interval = getInterval(this, 'fertilizingInterval');
-  return interval ? calculateNext(this.createdAtDate, interval) : null;
+  const baseDate = this.birthDate;
+
+  const calculated = calculateNext(baseDate, interval);
+
+  return applySnooze(this, 'fertilizing', calculated);
 });
 
 PlantSchema.virtual('nextCutting').get(function () {
   const interval = getInterval(this, 'cuttingInterval');
-  return interval ? calculateNext(this.createdAtDate, interval) : null;
+  const baseDate = this.birthDate;
+
+  const calculated = calculateNext(baseDate, interval);
+
+  return applySnooze(this, 'cutting', calculated);
 });
 
 PlantSchema.virtual('nextWiping').get(function () {
   const interval = getInterval(this, 'wipingInterval');
-  return interval ? calculateNext(this.createdAtDate, interval) : null;
+  const baseDate = this.birthDate;
+
+  const calculated = calculateNext(baseDate, interval);
+
+  return applySnooze(this, 'wiping', calculated);
 });
 
 export interface PlantWithVirtuals extends Plant {
@@ -144,4 +197,13 @@ export interface PlantWithVirtuals extends Plant {
   nextFertilizing?: Date;
   nextCutting?: Date;
   nextWiping?: Date;
+}
+
+export enum PlantLocation {
+  Balkon = 'Balkon',
+  Schlafzimmer = 'Schlafzimmer',
+  Flur = 'Flur',
+  Arbeitszimmer = 'Arbeitszimmer',
+  Wohnzimmer = 'Wohnzimmer',
+  Babiel = 'Babiel',
 }

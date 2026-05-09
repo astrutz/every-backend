@@ -5,6 +5,7 @@ import { Plant, PlantWithVirtuals } from './schemas/plant.schema';
 import { UpdatePlantDto } from './dto/update-plant.dto';
 import { CreatePlantDto } from './dto/create-plant.dto';
 import { UpdateCareDto } from './dto/update-care.dto';
+import { SnoozePlantDto } from './dto/snooze-plant.dto';
 
 @Injectable()
 export class PlantService {
@@ -23,9 +24,7 @@ export class PlantService {
   }
 
   async create(createPlantDto: CreatePlantDto): Promise<Plant> {
-    const plant = new this.plantModel({
-      createPlantDto,
-    });
+    const plant = new this.plantModel(createPlantDto);
     return plant.save();
   }
 
@@ -84,6 +83,42 @@ export class PlantService {
     await Promise.all(ops);
 
     return { message: 'Care data updated successfully', updated: ops.length };
+  }
+
+  async snooze(id: string, snoozePlantDto: SnoozePlantDto): Promise<Plant> {
+    const update: any = {};
+
+    if (snoozePlantDto.wateringUntil) {
+      update['snooze.wateringUntil'] = new Date(snoozePlantDto.wateringUntil);
+    }
+
+    if (snoozePlantDto.sprayingUntil) {
+      update['snooze.sprayingUntil'] = new Date(snoozePlantDto.sprayingUntil);
+    }
+
+    if (snoozePlantDto.fertilizingUntil) {
+      update['snooze.fertilizingUntil'] = new Date(snoozePlantDto.fertilizingUntil);
+    }
+
+    if (snoozePlantDto.cuttingUntil) {
+      update['snooze.cuttingUntil'] = new Date(snoozePlantDto.cuttingUntil);
+    }
+
+    if (snoozePlantDto.wipingUntil) {
+      update['snooze.wipingUntil'] = new Date(snoozePlantDto.wipingUntil);
+    }
+
+    const plant = await this.plantModel.findByIdAndUpdate(
+      id,
+      { $set: update },
+      { new: true },
+    );
+
+    if (!plant) {
+      throw new NotFoundException(`Plant with ID ${id} not found`);
+    }
+
+    return plant;
   }
 
   async update(id: string, updatePlantDto: UpdatePlantDto): Promise<Plant> {

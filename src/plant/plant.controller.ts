@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { PlantService } from './plant.service';
 import { CreatePlantDto } from './dto/create-plant.dto';
 import { UpdatePlantDto } from './dto/update-plant.dto';
 import { UpdateCareDto } from './dto/update-care.dto';
+import { SnoozePlantDto } from './dto/snooze-plant.dto';
 
 @Controller('plantu')
 export class PlantController {
@@ -39,6 +41,11 @@ export class PlantController {
   @Post('care')
   async updateCareBulk(@Body() dto: UpdateCareDto) {
     return this.plantService.updateCareBulk(dto);
+  }
+
+  @Patch(':id/snooze')
+  snoozePlant(@Param('id') id: string, @Body() dto: SnoozePlantDto) {
+    return this.plantService.snooze(id, dto);
   }
 
   @Put(':id')
