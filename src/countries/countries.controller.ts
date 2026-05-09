@@ -10,7 +10,7 @@ import {
 import { CountriesService } from './countries.service';
 import { CreateCountryDto, UpdateCountryDto } from './dto/create-country.dto';
 
-@Controller('countries')
+@Controller('eurovision/countries')
 export class CountriesController {
   constructor(private readonly countriesService: CountriesService) {}
 

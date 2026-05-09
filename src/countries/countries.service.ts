@@ -36,7 +36,7 @@ export class CountriesService {
     updateCountryDto: UpdateCountryDto,
   ): Promise<Country> {
     const country = await this.countryModel
-      .findByIdAndUpdate(id, updateCountryDto, { new: true })
+      .findByIdAndUpdate(id, updateCountryDto, { returnDocument: 'after' })
       .exec();
 
     if (!country) {

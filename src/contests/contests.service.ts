@@ -126,7 +126,7 @@ export class ContestsService {
     updateContestDto: UpdateContestDto,
   ): Promise<Contest> {
     const contest = await this.contestModel
-      .findByIdAndUpdate(id, updateContestDto, { new: true })
+      .findByIdAndUpdate(id, updateContestDto, { returnDocument: 'after' })
       .select('year colours')
       .populate('hostCountry', 'code name')
       .populate({

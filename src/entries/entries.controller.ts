@@ -11,7 +11,7 @@ import {
 import { EntriesService } from './entries.service';
 import { CreateEntryDto, UpdateEntryDto } from './dto/create-entry.dto';
 
-@Controller('entries')
+@Controller('eurovision/entries')
 export class EntriesController {
   constructor(private readonly entriesService: EntriesService) {}
 

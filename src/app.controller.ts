@@ -10,6 +10,7 @@ export class AppController {
         countries: '/countries',
         contests: '/contests',
         entries: '/entries',
+        plants: '/plantu',
       },
     };
   }

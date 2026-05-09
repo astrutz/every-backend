@@ -70,7 +70,7 @@ export class EntriesService {
 
   async update(id: string, updateEntryDto: UpdateEntryDto): Promise<Entry> {
     const entry = await this.entryModel
-      .findByIdAndUpdate(id, updateEntryDto, { new: true })
+      .findByIdAndUpdate(id, updateEntryDto, { returnDocument: 'after' })
       .populate('country')
       .populate({
         path: 'contest',
