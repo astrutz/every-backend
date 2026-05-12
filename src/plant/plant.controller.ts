@@ -23,14 +23,14 @@ export class PlantController {
     return this.plantService.findAll();
   }
 
+  @Get('tasks')
+  async getTasks() {
+    return this.plantService.getTasks();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.plantService.findOne(id);
-  }
-
-  @Get('next-watering')
-  async getNextWatering() {
-    return this.plantService.getPlantsGroupedByNextWatering();
   }
 
   @Post()
