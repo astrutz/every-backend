@@ -97,7 +97,9 @@ export class PlantService {
     }
 
     if (snoozePlantDto.fertilizingUntil) {
-      update['snooze.fertilizingUntil'] = new Date(snoozePlantDto.fertilizingUntil);
+      update['snooze.fertilizingUntil'] = new Date(
+        snoozePlantDto.fertilizingUntil,
+      );
     }
 
     if (snoozePlantDto.cuttingUntil) {
@@ -138,30 +140,44 @@ export class PlantService {
     }
   }
 
-  async getPlantsGroupedByNextWatering() {
+  async getTasks() {
     const plants = await this.findAll();
 
-    const groups: Record<string, any[]> = {};
+    const taskFields = [
+      'nextWatering',
+      'nextSpraying',
+      'nextFertilizing',
+      'nextWiping',
+      'nextCutting',
+    ];
+
+    const groups: Record<string, PlantWithVirtuals[]> = {};
 
     plants.forEach((plant: PlantWithVirtuals) => {
-      const next = plant.nextWatering;
-      if (!next) {
+      const dates = taskFields
+        .map((field) => plant[field])
+        .filter((d) => d instanceof Date);
+
+      if (dates.length === 0) {
         return;
       }
 
+      const next = dates.sort((a, b) => a.getTime() - b.getTime())[0];
       const day = next.toISOString().split('T')[0];
 
       if (!groups[day]) {
         groups[day] = [];
       }
-      groups[day].push({
-        id: plant._id,
-        name: plant.name,
-        nextWatering: next,
-        location: plant.location,
-      });
+
+      groups[day].push(plant.toObject({ virtuals: true }));
     });
 
-    return groups;
+    return Object.entries(groups)
+      .map(([day, plants]) => ({
+        day,
+        plants,
+      }))
+      .sort((a, b) => a.day.localeCompare(b.day));
+
   }
 }

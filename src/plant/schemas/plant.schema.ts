@@ -148,7 +148,7 @@ function applySnooze(
 
 PlantSchema.virtual('nextWatering').get(function () {
   const interval = getInterval(this, 'wateringInterval');
-  const baseDate = this.birthDate;
+  const baseDate = this.lastWateredAt || this.birthDate;
 
   const calculated = calculateNext(baseDate, interval);
 
@@ -157,7 +157,7 @@ PlantSchema.virtual('nextWatering').get(function () {
 
 PlantSchema.virtual('nextSpraying').get(function () {
   const interval = getInterval(this, 'sprayingInterval');
-  const baseDate = this.birthDate;
+  const baseDate = this.lastSprayedAt || this.birthDate;
 
   const calculated = calculateNext(baseDate, interval);
 
@@ -166,7 +166,7 @@ PlantSchema.virtual('nextSpraying').get(function () {
 
 PlantSchema.virtual('nextFertilizing').get(function () {
   const interval = getInterval(this, 'fertilizingInterval');
-  const baseDate = this.birthDate;
+  const baseDate = this.lastFertilizedAt || this.birthDate;
 
   const calculated = calculateNext(baseDate, interval);
 
@@ -175,7 +175,7 @@ PlantSchema.virtual('nextFertilizing').get(function () {
 
 PlantSchema.virtual('nextCutting').get(function () {
   const interval = getInterval(this, 'cuttingInterval');
-  const baseDate = this.birthDate;
+  const baseDate = this.lastTrimmedAt || this.birthDate;
 
   const calculated = calculateNext(baseDate, interval);
 
@@ -184,7 +184,7 @@ PlantSchema.virtual('nextCutting').get(function () {
 
 PlantSchema.virtual('nextWiping').get(function () {
   const interval = getInterval(this, 'wipingInterval');
-  const baseDate = this.birthDate;
+  const baseDate = this.lastWipedAt || this.birthDate;
 
   const calculated = calculateNext(baseDate, interval);
 
