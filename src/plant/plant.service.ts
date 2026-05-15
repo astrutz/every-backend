@@ -143,41 +143,36 @@ export class PlantService {
   async getTasks() {
     const plants = await this.findAll();
 
-    const taskFields = [
-      'nextWatering',
-      'nextSpraying',
-      'nextFertilizing',
-      'nextWiping',
-      'nextCutting',
-    ];
+    const groups: Record<string, Map<string, PlantWithVirtuals>> = {};
 
-    const groups: Record<string, PlantWithVirtuals[]> = {};
+    plants.forEach((plant: any) => {
+      const plantObj = plant.toObject({ virtuals: true });
+      const plantId = plantObj._id.toString();
 
-    plants.forEach((plant: PlantWithVirtuals) => {
-      const dates = taskFields
-        .map((field) => plant[field])
-        .filter((d) => d instanceof Date);
+      const tasks = [
+        plant.nextWatering,
+        plant.nextSpraying,
+        plant.nextFertilizing,
+        plant.nextWiping,
+        plant.nextCutting,
+      ].filter((d): d is Date => d instanceof Date);
 
-      if (dates.length === 0) {
-        return;
-      }
+      tasks.forEach((date) => {
+        const day = date.toISOString().split('T')[0];
 
-      const next = dates.sort((a, b) => a.getTime() - b.getTime())[0];
-      const day = next.toISOString().split('T')[0];
+        if (!groups[day]) {
+          groups[day] = new Map();
+        }
 
-      if (!groups[day]) {
-        groups[day] = [];
-      }
-
-      groups[day].push(plant.toObject({ virtuals: true }));
+        groups[day].set(plantId, plantObj);
+      });
     });
 
     return Object.entries(groups)
-      .map(([day, plants]) => ({
+      .map(([day, plantMap]) => ({
         day,
-        plants,
+        plants: Array.from(plantMap.values()),
       }))
       .sort((a, b) => a.day.localeCompare(b.day));
-
   }
 }
