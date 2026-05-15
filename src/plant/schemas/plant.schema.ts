@@ -110,11 +110,14 @@ export class Plant extends Document {
 
 export const PlantSchema = SchemaFactory.createForClass(Plant);
 
-function calculateNext(from: Date, interval: number): Date {
+function calculateNext(from: Date, interval?: number): Date | null {
+  if (!interval) {
+    return null;
+  }
   return new Date(from.getTime() + interval * 24 * 60 * 60 * 1000);
 }
 
-function getInterval(plant: any, key: string) {
+function getInterval(plant: Plant, key: keyof Plant): number | undefined {
   const today = new Date();
 
   if (
@@ -127,7 +130,7 @@ function getInterval(plant: any, key: string) {
     return plant.dormantPeriod[key] || plant[key];
   }
 
-  return plant[key];
+  return +(plant[key]);
 }
 
 function applySnooze(
