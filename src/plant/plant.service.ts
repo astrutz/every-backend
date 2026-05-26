@@ -39,7 +39,10 @@ export class PlantService {
       ops.push(
         this.plantModel.updateMany(
           { _id: { $in: dto.watered } },
-          { $set: { lastWateredAt: now } },
+          {
+            $set: { lastWateredAt: now },
+            $unset: { 'snooze.wateringUntil': '' },
+          },
         ),
       );
     }
@@ -48,7 +51,10 @@ export class PlantService {
       ops.push(
         this.plantModel.updateMany(
           { _id: { $in: dto.sprayed } },
-          { $set: { lastSprayedAt: now } },
+          {
+            $set: { lastSprayedAt: now },
+            $unset: { 'snooze.sprayingUntil': '' },
+          },
         ),
       );
     }
@@ -57,7 +63,10 @@ export class PlantService {
       ops.push(
         this.plantModel.updateMany(
           { _id: { $in: dto.fertilized } },
-          { $set: { lastFertilizedAt: now } },
+          {
+            $set: { lastFertilizedAt: now },
+            $unset: { 'snooze.fertilizingUntil': '' },
+          },
         ),
       );
     }
@@ -66,7 +75,10 @@ export class PlantService {
       ops.push(
         this.plantModel.updateMany(
           { _id: { $in: dto.trimmed } },
-          { $set: { lastTrimmedAt: now } },
+          {
+            $set: { lastTrimmedAt: now },
+            $unset: { 'snooze.cuttingUntil': '' },
+          },
         ),
       );
     }
@@ -75,7 +87,10 @@ export class PlantService {
       ops.push(
         this.plantModel.updateMany(
           { _id: { $in: dto.wiped } },
-          { $set: { lastWipedAt: now } },
+          {
+            $set: { lastWipedAt: now },
+            $unset: { 'snooze.wipingUntil': '' },
+          },
         ),
       );
     }
