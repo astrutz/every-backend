@@ -10,7 +10,7 @@ export class Entry extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Country', required: true, index: true })
   country: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Contest', required: true, index: true })
+  @Prop({ type: Types.ObjectId, ref: 'Contest', index: true })
   contest: Types.ObjectId;
 
   @Prop({ required: true, index: true, type: Number })
