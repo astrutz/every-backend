@@ -49,7 +49,7 @@ export class ContestsService {
     return contest;
   }
 
-  async findByYear(year: number): Promise<Contest> {
+  async findByYear(year: string): Promise<Contest> {
     const contest = await this.contestModel
       .findOne({ year })
       .select('year colours')
@@ -69,7 +69,7 @@ export class ContestsService {
     return contest;
   }
 
-  async findTopEntries(year: number, limit: number = 10): Promise<any> {
+  async findTopEntries(year: string, limit: number = 10): Promise<any> {
     // Get contest basic info
     const contest = await this.contestModel
       .findOne({ year })
@@ -144,7 +144,7 @@ export class ContestsService {
     return contest;
   }
 
-  async addEntryToContest(year: number, entryId: string): Promise<Contest | null> {
+  async addEntryToContest(year: string, entryId: string): Promise<Contest | null> {
     const contest = await this.contestModel.findOne({ year });
     if (!contest) {
       return null;

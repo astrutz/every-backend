@@ -15,8 +15,8 @@ export class CreateEntryDto {
   @IsOptional()
   contest?: string;
 
-  @IsNumber()
-  year: number;
+  @IsString()
+  year: string;
 
   @IsNumber()
   place: number;
