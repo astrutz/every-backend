@@ -20,10 +20,7 @@ export class EntriesController {
     @Query('year') year?: string,
     @Query('country') countryCode?: string,
   ) {
-    return this.entriesService.findAll(
-      year ? parseInt(year) : undefined,
-      countryCode,
-    );
+    return this.entriesService.findAll(year, countryCode);
   }
 
   @Get(':id')
