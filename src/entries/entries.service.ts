@@ -9,7 +9,7 @@ import { ContestsService } from '../contests/contests.service';
 export class EntriesService {
   constructor(@InjectModel(Entry.name) private entryModel: Model<Entry>, private contestsService: ContestsService) {}
 
-  async findAll(year?: number, countryCode?: string): Promise<Entry[]> {
+  async findAll(year?: string, countryCode?: string): Promise<Entry[]> {
     const filter: any = {};
 
     if (year) {

@@ -1,15 +1,8 @@
-import {
-  IsNumber,
-  IsArray,
-  IsOptional,
-  IsMongoId,
-  Min,
-} from 'class-validator';
+import { IsArray, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateContestDto {
-  @IsNumber()
-  @Min(1956) // First Eurovision was 1956
-  year: number;
+  @IsString()
+  year: string;
 
   @IsMongoId()
   hostCountry: string;

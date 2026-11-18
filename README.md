@@ -383,7 +383,7 @@ Content-Type: application/json
 **Validation Rules:**
 - `country`: Must be a valid MongoDB ObjectId
 - `contest`: Must be a valid MongoDB ObjectId
-- `year`: Number
+- `year`: String
 - `place`: Number
 - `artist`: String (required)
 - `title`: String (required)
@@ -429,7 +429,7 @@ DELETE /entries/:id
 ### Contest
 ```typescript
 {
-  year: number;           // Contest year (e.g., 2024)
+  year: string;           // Contest year (e.g., 2024)
   hostCountry: ObjectId;  // Reference to Country
   colours: string[];      // Array of hex color codes
   entries: ObjectId[];    // Array of Entry references
@@ -441,7 +441,7 @@ DELETE /entries/:id
 {
   country: ObjectId;      // Reference to Country
   contest: ObjectId;      // Reference to Contest
-  year: number;           // Contest year
+  year: string;           // Contest year
   place: number;          // Final placement
   artist: string;         // Artist name
   title: string;          // Song title

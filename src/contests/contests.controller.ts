@@ -19,7 +19,7 @@ export class ContestsController {
   @Get()
   findAll(@Query('year') year?: string) {
     if (year) {
-      return this.contestsService.findByYear(parseInt(year));
+      return this.contestsService.findByYear(year);
     }
     return this.contestsService.findAll();
   }
@@ -32,7 +32,7 @@ export class ContestsController {
   @Get(':year/top')
   findTopEntries(@Param('year') year: string, @Query('limit') limit?: string) {
     return this.contestsService.findTopEntries(
-      parseInt(year),
+      year,
       limit ? parseInt(limit) : 10,
     );
   }
